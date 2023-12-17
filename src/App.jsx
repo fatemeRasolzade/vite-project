@@ -1,16 +1,28 @@
-import { useState } from "react";
+import { useReducer } from "react";
 import "./App.css";
 
+const initialState = 0;
+function reducerAction(state, { type, payload }) {
+  console.log(type);
+  switch (type) {
+    case "increase":
+      return state + payload;
+    case "decrease":
+      return state - payload;
+
+    default:
+      break;
+  }
+}
+
 function App() {
-  const initialState = 0;
-  const [count, setCount] = useState(initialState);
+  const [state, dispatch] = useReducer(reducerAction, initialState);
 
   return (
     <>
-      <h1>{count}</h1>
-      <button onClick={() => setCount((count) => count + 1)}>Increase</button>
-      <button onClick={() => setCount(initialState)}>Reset</button>
-      <button onClick={() => setCount((count) => count - 1)}>Decrease</button>
+      <h1>{state}</h1>
+      <button onClick={() => dispatch({ type: "increase", payload: 1 })}>Increase</button>
+      <button onClick={() => dispatch({ type: "decrease", payload: 1 })}>Decrease</button>
     </>
   );
 }
